@@ -25,10 +25,7 @@ under the License.
 -->
 
 :::tip
-- since 2.1
-:::
-
-Doris implements high-speed data links based on the Arrow Flight SQL protocol, and supports multiple languages ​​to use SQL to read large batches of data from Doris at high speed.
+Since verison 2.1, Doris implements high-speed data links based on the Arrow Flight SQL protocol, and supports multiple languages ​​to use SQL to read large batches of data from Doris at high speed.:::
 
 ## Usage
 
@@ -40,11 +37,11 @@ The motivation, design and implementation, performance test results, and more co
 
 Install Apache Arrow You can find detailed installation tutorials in the official documentation (https://arrow.apache.org/install/)
 
-## Python Usage
+## Python usage
 
 Use Python's ADBC ​​Driver to connect to Doris to achieve extremely fast data reading. The following steps use Python (version >= 3.9) ADBC ​​Driver to perform a series of common database syntax operations, including DDL, DML, setting Session variables, and Show statements.
 
-### Install Library
+### Install library
 
 The library is published on PyPI and can be easily installed in the following ways:
 
@@ -272,7 +269,7 @@ execute("select k5, sum(k1), count(1), avg(k3) from arrow_flight_sql_test group 
 cursor.close()
 ```
 
-## Jdbc Connector with Arrow Flight SQL
+## JDBC Connector with Arrow Flight SQL
 
 The open source JDBC driver of Arrow Flight SQL protocol is compatible with the standard JDBC API, which can be used by most BI tools to access Doris through JDBC and supports high-speed transmission of Apache Arrow data. The usage is similar to connecting to Doris through the JDBC driver of MySQL protocol. You only need to replace the jdbc:mysql protocol in the link URL with the jdbc:arrow-flight-sql protocol. The query results are still returned in the JDBC ResultSet data structure.
 
@@ -316,7 +313,7 @@ stmt.close();
 conn.close();
 ```
 
-## Java Usage
+## Java usage
 
 In addition to using JDBC, similar to Python, JAVA can also create a Driver to read Doris and return data in Arrow format. The following are how to use AdbcDriver and JdbcDriver to connect to Doris Arrow Flight Server.
 
@@ -447,7 +444,7 @@ Arrow Flight currently has no official plan to support Spark and Flink (https://
 
 The community previously referred to the open source Spark-Flight-Connector (https://github.com/qwshen/spark-flight-connector) and used FlightClient in Spark to connect to Doris for testing. It was found that the data format conversion between Arrow and Doris Block is faster, which is 10 times the conversion speed between CSV format and Doris Block, and it has better support for complex types such as Map and Array. This is because the Arrow data format has a high compression rate and low network overhead during transmission. However, Doris Arrow Flight has not yet implemented multi-node parallel reading. It still aggregates query results to a BE node and returns them. For simple batch export of data, the performance may not be as fast as Doris Spark Connector, which supports Tablet-level parallel reading. If you want to use Arrow Flight SQL to connect to Doris in Spark, you can refer to the open source https://github.com/qwshen/spark-flight-connector and https://github.com/dremio-hub/dremio-flight-connector to implement it yourself.
 
-## FAQ
+## FAQs
 
 1. ARM environment reports an error `get flight info statement failed, arrow flight schema timeout, TimeoutException: Waited 5000 milliseconds for io.grpc.stub.Client`. If the Linux kernel version is <= 4.19.90, you need to upgrade to 4.19.279 or above, or recompile Doris BE in the environment of the lower version of the Linux kernel. For specific compilation methods, refer to the document <docs/dev/install/source-install/compilation-arm>
 

@@ -25,10 +25,7 @@ under the License.
 -->
 
 :::tip
-- since 2.1
-:::
-
-Doris 基于 Arrow Flight SQL 协议实现了高速数据链路，支持多种语言使用 SQL 从 Doris 高速读取大批量数据。
+自 2.1 版本起，Doris 基于 Arrow Flight SQL 协议实现了高速数据链路，支持多种语言使用 SQL 从 Doris 高速读取大批量数据。:::
 
 ## 用途
 
@@ -38,8 +35,8 @@ Apache Arrow Flight SQL 是一个由 Apache Arrow 社区开发的与数据库系
 
 Doris 支持 Arrow Flight SQL 的动机、设计与实现、性能测试结果、以及有关 Arrow Flight、ADBC的更多概念可以看：https://github.com/apache/doris/issues/25514，这篇文档主要介绍 Doris Arrow Flight SQL 的使用方法，以及一些常见问题。
 
-安装Apache Arrow 你可以去官方文档(
-https://arrow.apache.org/install/)找到详细的安装教程
+关于如何安装Apache Arrow，可前往 [官方文档](
+https://arrow.apache.org/install/) 找到详细的安装教程。
 
 ## Python 使用方法
 
@@ -54,7 +51,7 @@ pip install adbc_driver_manager
 pip install adbc_driver_flightsql
 ```
 
-在代码中import 以下模块/库来使用已安装的 Library：
+在代码中 import 以下模块/库来使用已安装的 Library：
 
 ```Python
 import adbc_driver_manager
@@ -426,7 +423,7 @@ try (
 }
 ```
 
-### Jdbc 和 Java 连接方式的选择
+### JDBC 和 Java 连接方式的选择
 
 对比传统的 `jdbc:mysql` 连接方式，Jdbc 和 Java 的 Arrow Flight SQL 连接方式的性能测试见 https://github.com/apache/doris/issues/25514，这里基于测试结论给出一些使用建议。
 
@@ -444,11 +441,11 @@ try (
 
 ### Spark & Flink
 
-Arrow Flight官方目前没有支持 Spark 和 Flink 的计划（https://github.com/apache/arrow-adbc/issues/1490），Doris 自己的 Spark Connector（https://github.com/apache/doris-spark-connector）和 Flink Connector（https://github.com/apache/doris-flink-connector）目前还不支持通过 Arrow Flight SQL 访问 Doris。其中 Doris Flink Connector 支持 Arrow Flight SQL 正在开发中，预期能提升数倍读取性能。
+Arrow Flight 官方目前没有支持 Spark 和 Flink 的计划（https://github.com/apache/arrow-adbc/issues/1490），Doris 自己的 Spark Connector（https://github.com/apache/doris-spark-connector）和 Flink Connector（https://github.com/apache/doris-flink-connector）目前还不支持通过 Arrow Flight SQL 访问 Doris。其中 Doris Flink Connector 支持 Arrow Flight SQL 正在开发中，预期能提升数倍读取性能。
 
 社区之前参考开源的 Spark-Flight-Connector（https://github.com/qwshen/spark-flight-connector），在 Spark 中使用 FlightClient 连接 Doris 测试，发现 Arrow 与 Doris Block 之间数据格式转换的速度更快，是 CSV 格式与 Doris Block 之间转换速度的 10 倍，而且对 Map，Array 等复杂类型的支持更好，这是因为Arrow 数据格式的压缩率高，传输时网络开销小。不过目前 Doris Arrow Flight 还没有实现多节点并行读取，仍是将查询结果汇总到一台 BE 节点后返回，对简单的批量导出数据而言，性能可能没有 Doris Spark Connector 快，后者支持 Tablet 级别的并行读取。如果你希望在 Spark 使用 Arrow Flight SQL 连接 Doris，可以参考开源的 https://github.com/qwshen/spark-flight-connector 和 https://github.com/dremio-hub/dremio-flight-connector 自行实现。
 
-## FAQ
+## 常见问题
 
 1. ARM 环境报错 `get flight info statement failed, arrow flight schema timeout, TimeoutException: Waited 5000 milliseconds for io.grpc.stub.Client`，如果 Linux 内核版本 <= 4.19.90，需要升级到 4.19.279 及以上，或者在低版本 Linux 内核的环境中重新编译 Doris BE，具体编译方法参考文档<docs/dev/install/source-install/compilation-arm>
 
